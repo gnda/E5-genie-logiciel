@@ -48,9 +48,9 @@
             this.MineLabel.AutoSize = true;
             this.MineLabel.Location = new System.Drawing.Point(12, 18);
             this.MineLabel.Name = "MineLabel";
-            this.MineLabel.Size = new System.Drawing.Size(35, 13);
+            this.MineLabel.Size = new System.Drawing.Size(41, 13);
             this.MineLabel.TabIndex = 2;
-            this.MineLabel.Text = "label2";
+            this.MineLabel.Text = "Mines :";
             // 
             // GridPanel
             // 
