@@ -81,7 +81,6 @@ namespace IHM
 
             if( e.Button == MouseButtons.Left ) {
                jeu.DecouvrirCase(x, y);
-               jeu.CasesParcour.Clear();
             }
             else
             {

@@ -6,7 +6,6 @@ namespace IHM
     public interface IActions
     {
         IReactions vue { get; set; }
-        List<Case> CasesParcour { get; set; }
 
         void CommencerPartie(int largeur, int hauteur, int mines);
 
