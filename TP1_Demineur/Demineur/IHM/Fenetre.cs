@@ -1,5 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
 using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace IHM
@@ -10,7 +16,7 @@ namespace IHM
         int largeur_grille = 10;
         int hauteur_grille = 10;
         int taille_tuile = 20;
-        int numero_mines = 15;
+        int numero_mines = 10;
 
         // IHM
         Button[,] grille;
@@ -79,13 +85,10 @@ namespace IHM
             int x = b.Location.X / taille_tuile;
             int y = b.Location.Y / taille_tuile;
 
-            if( e.Button == MouseButtons.Left ) {
-               jeu.DecouvrirCase(x, y);
-            }
+            if( e.Button == MouseButtons.Left )
+                jeu.DecouvrirCase(x, y);
             else
-            {
                 jeu.MarquerCase(x, y);
-            }
         }
 
         void IReactions.MarquerCase(int x, int y, bool drapeau)
@@ -105,7 +108,7 @@ namespace IHM
         {
             grille[x, y].Enabled = false;
             grille[x, y].FlatStyle = FlatStyle.Flat;
-            grille[x, y].Text = contenu == 0 ? " " : contenu.ToString();
+            grille[x, y].Text = contenu.ToString();
             grille[x, y].BackColor = Color.Silver;
             switch (contenu)
             {

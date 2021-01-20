@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Demineur.Jeu;
 using IHM;
 
@@ -23,12 +22,19 @@ namespace Jeu
         public void DecouvrirCase(int x, int y)
         {
             Case c = plateau.Trouver(x, y);
-            c.Decouvrir();
-            bool gagnee = plateau.TesterSiGagne();
+            bool minee = c.Decouvrir();
 
-            if (gagnee)
+            if (minee)
             {
-                vue.PartieGagnee();
+                vue.PartiePerdue();
+            }
+            else
+            {
+                bool gagnee = plateau.TesterSiGagne();
+                if (gagnee)
+                {
+                    vue.PartieGagnee();
+                }
             }
         }
 

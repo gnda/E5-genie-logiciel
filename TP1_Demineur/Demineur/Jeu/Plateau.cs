@@ -54,21 +54,6 @@ namespace Demineur.Jeu
                 }
             }
         }
-        public int[] GetCoord(Case c)
-        {
-            for (int x = 0; x < largeur; x++)
-            {
-                for (int y = 0; y < hauteur; y++)
-                {
-                    if (cases[x, y].Equals(c))
-                    {
-                        return new[] { x, y };
-                    }
-                }
-            }
-
-            return null;
-        }
 
         void Connecter(Case a, Case b)
         {
@@ -91,7 +76,7 @@ namespace Demineur.Jeu
         }
         public bool TesterSiGagne()
         {
-            return decouvertes + mines == largeur * hauteur;
+            return decouvertes + mines == (largeur * hauteur) - 1;
         }
     }
 }

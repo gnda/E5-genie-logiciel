@@ -48,8 +48,8 @@ namespace Demineur.Jeu
             if (minee)
             {
                 plateau.Partie.vue.AfficherCaseMinee(x, y, minee);
-                plateau.Partie.vue.PartiePerdue();
-            } else
+            }
+            else
             {
                 num = CompterVoisinMinee();
                 plateau.Partie.vue.AfficherCaseNumerotee(x, y, num);
