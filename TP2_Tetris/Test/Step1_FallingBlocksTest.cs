@@ -31,61 +31,61 @@ namespace Test
             );
         }
 
-        //[TestMethod]
-        //public void board_has_no_falling_blocks()
-        //{
-        //    Assert.IsFalse( board.IsFallingBlock() );
-        //}
+        [TestMethod]
+        public void board_has_no_falling_blocks()
+        {
+            Assert.IsFalse( board.IsFallingBlock() );
+        }
 
         #endregion
 
         #region when_a_block_is_dropped
 
-        //void DropBlock(char c)
-        //{
-        //    board.Drop(new Block(c));
-        //}
+        void DropBlock(char c)
+        {
+            board.Drop(new Block(c));
+        }
 
-        //[TestMethod]
-        //public void block_is_falling()
-        //{
-        //    // act
-        //    DropBlock('X');
+        [TestMethod]
+        public void block_is_falling()
+        {
+            // act
+            DropBlock('x');
 
-        //    // assert
-        //    Assert.IsTrue(board.IsFallingBlock());
-        //}
+            // assert
+            Assert.IsTrue(board.IsFallingBlock());
+        }
 
-        //[TestMethod]
-        //public void block_starts_from_the_top_middle()
-        //{
-        //    // act
-        //    DropBlock('X');
+        [TestMethod]
+        public void block_starts_from_the_top_middle()
+        {
+            // act
+            DropBlock('X');
 
-        //    // assert
-        //    Assert.AreEqual(board.ToString(),
-        //        ".X.\n" +
-        //        "...\n" +
-        //        "...\n"
-        //    );
-        //}
+            // assert
+            Assert.AreEqual(board.ToString(),
+                ".X.\n" +
+                "...\n" +
+                "...\n"
+            );
+        }
 
-        //[TestMethod]
-        //public void block_moves_down_one_row_per_tick()
-        //{
-        //    // arrange
-        //    DropBlock('X');
+        [TestMethod]
+        public void block_moves_down_one_row_per_tick()
+        {
+            // arrange
+            DropBlock('X');
 
-        //    // act
-        //    board.Tick();
+            // act
+            board.Tick();
 
-        //    // assert
-        //    Assert.AreEqual(board.ToString(),
-        //        "...\n" +
-        //        ".X.\n" +
-        //        "...\n"
-        //    );
-        //}
+            // assert
+            Assert.AreEqual(board.ToString(),
+                "...\n" +
+                ".X.\n" +
+                "...\n"
+            );
+        }
 
         //[TestMethod]
         //[ExpectedException(typeof(ArgumentException), "A block is already falling.")]

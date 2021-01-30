@@ -25,3 +25,15 @@ C:\Users\chierchg\Corsi\GL\Esercizi\TP2_Tetris\Test\bin\Debug\Microsoft.VisualSt
 C:\Users\chierchg\Corsi\GL\Esercizi\TP2_Tetris\Test\obj\Debug\Test.csprojResolveAssemblyReference.cache
 C:\Users\chierchg\Corsi\GL\Esercizi\TP2_Tetris\Test\obj\Debug\Test.dll
 C:\Users\chierchg\Corsi\GL\Esercizi\TP2_Tetris\Test\obj\Debug\Test.pdb
+C:\workspace\E5-genie-logiciel\TP2_Tetris\Test\bin\Debug\Test.dll
+C:\workspace\E5-genie-logiciel\TP2_Tetris\Test\bin\Debug\Test.pdb
+C:\workspace\E5-genie-logiciel\TP2_Tetris\Test\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\workspace\E5-genie-logiciel\TP2_Tetris\Test\bin\Debug\Source.exe
+C:\workspace\E5-genie-logiciel\TP2_Tetris\Test\bin\Debug\Source.pdb
+C:\workspace\E5-genie-logiciel\TP2_Tetris\Test\bin\Debug\Source.exe.config
+C:\workspace\E5-genie-logiciel\TP2_Tetris\Test\bin\Debug\fr\Microsoft.VisualStudio.QualityTools.UnitTestFramework.resources.dll
+C:\workspace\E5-genie-logiciel\TP2_Tetris\Test\obj\Debug\Test.csprojAssemblyReference.cache
+C:\workspace\E5-genie-logiciel\TP2_Tetris\Test\obj\Debug\Test.csproj.CoreCompileInputs.cache
+C:\workspace\E5-genie-logiciel\TP2_Tetris\Test\obj\Debug\Test.csproj.CopyComplete
+C:\workspace\E5-genie-logiciel\TP2_Tetris\Test\obj\Debug\Test.dll
+C:\workspace\E5-genie-logiciel\TP2_Tetris\Test\obj\Debug\Test.pdb

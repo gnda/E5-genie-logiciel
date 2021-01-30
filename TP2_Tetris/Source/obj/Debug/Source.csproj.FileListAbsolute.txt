@@ -16,3 +16,10 @@ C:\Users\chierchg\Corsi\GL\Esercizi\TP2_Tetris\Source\obj\Debug\Source.pdb
 C:\Users\chierchg\Corsi\GL\Esercizi\TP2_Tetris\Source\bin\Debug\Source.exe
 C:\Users\chierchg\Corsi\GL\Esercizi\TP2_Tetris\Source\bin\Debug\Source.pdb
 C:\Users\chierchg\Corsi\GL\Esercizi\TP2_Tetris\Source\obj\Debug\Source.csprojResolveAssemblyReference.cache
+C:\workspace\E5-genie-logiciel\TP2_Tetris\Source\bin\Debug\Source.exe.config
+C:\workspace\E5-genie-logiciel\TP2_Tetris\Source\bin\Debug\Source.exe
+C:\workspace\E5-genie-logiciel\TP2_Tetris\Source\bin\Debug\Source.pdb
+C:\workspace\E5-genie-logiciel\TP2_Tetris\Source\obj\Debug\Source.csprojAssemblyReference.cache
+C:\workspace\E5-genie-logiciel\TP2_Tetris\Source\obj\Debug\Source.csproj.CoreCompileInputs.cache
+C:\workspace\E5-genie-logiciel\TP2_Tetris\Source\obj\Debug\Source.exe
+C:\workspace\E5-genie-logiciel\TP2_Tetris\Source\obj\Debug\Source.pdb
