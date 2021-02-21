@@ -8,8 +8,8 @@ namespace Source
 {
     public class Block : Grid 
     {
-        int columns;
-        int rows;
+        public int columns { get; private set; }
+        public int rows { get; private set; }
         char[,] block;
 
         public Block(char type) : this(0, 0)
@@ -21,11 +21,11 @@ namespace Source
             this.rows = grid.Rows();
             this.columns = grid.Columns();
             this.block = new char[this.rows, this.columns];
-            for (int r = 0; r < this.rows; r++)
+            for (int row = 0; row < this.rows; row++)
             {
-                for (int c = 0; c < this.columns; c++)
+                for (int col = 0; col < this.columns; col++)
                 {
-                    this.block[r, c] = grid.CellAt(r, c);
+                    this.block[row, col] = grid.cellule(row, col);
                 }
             }
         }
@@ -51,7 +51,7 @@ namespace Source
             return (row == this.rows) && (col == this.columns);
         }
 
-        public char CellAt(int row, int col)
+        public char cellule(int row, int col)
         {
            return block[row,col];
         }
@@ -87,7 +87,7 @@ namespace Source
 
 
 
-        bool OutsideBoard(Board b)
+        bool OutsideBoard(Board board)
         {
             for (int row = 0; row < Rows(); row++)
             {
@@ -97,7 +97,8 @@ namespace Source
                     {
                         int outer_row = ToOuterRow(row);
                         int outer_col = ToOuterCol(col);
-                        if (outer_col < 0 || outer_col >= b.columns || outer_row < 0 || outer_row >= b.rows)
+                        if (outer_col < 0 || outer_col >= board.columns || 
+                            outer_row < 0 || outer_row >= board.rows)
                         {
                             return true;
                         }

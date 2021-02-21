@@ -6,20 +6,21 @@ namespace Source
 {
     public class StringToMatrix{
         public char[,] blocks;
-        public int rows;
-        public int columns;
+        public int columns { get; private set; }
+        public int rows { get; private set; }
         //private string shape;
         public StringToMatrix(string shape)
         {
 
             //this.shape = shape;
-            string[] block = shape.Split(new char[] { '\n'}, System.StringSplitOptions.RemoveEmptyEntries); //caster
+            string[] block = shape.Split(new char[] { '\n'}, System.StringSplitOptions.RemoveEmptyEntries); //cat
             this.rows = block.Length;
             this.columns = block[0].Length;
-            this.blocks = new char[this.rows, this.columns]; 
+            this.blocks = new char[this.rows, this.columns];
+            char[] row = null;
             for (int i=0; i< this.rows; i++)
             {
-                char[] row = block[i].ToCharArray();
+                row = block[i].ToCharArray();
                 if (row.Length != this.columns)
                     throw new System.Exception("Not same size");
                 for(int j = 0; j< this.columns; j++)
@@ -29,15 +30,15 @@ namespace Source
             }
         }
 
-        public static string Inverse(char[,] blocks, int rows, int columns)
+        public static string Inverse(char[,] param_blocks, int row_size, int column_size)
         {
             string to_return = "";
             //while blocks
-            for(int row =0; row < rows; row++)
+            for(int row = 0 ; row < row_size; row++)
             {
-                for (int column = 0 ; column < columns; column++)
+                for (int col = 0 ; col < column_size; col++)
                 {
-                    to_return += blocks[row, column];
+                    to_return += param_blocks[row, col];
                 }
                 to_return += '\n';
             }
@@ -48,16 +49,16 @@ namespace Source
 
     public class Piece : Grid
     {
-        int rows;
-        int columns;
+        public int columns { get; private set; }
+        public int rows { get; private set; }
         char[,] blocks;
 
         public Piece(string shape)
         {
-            StringToMatrix s2m = new StringToMatrix(shape);
-            this.blocks = s2m.blocks;
-            this.rows = s2m.rows;
-            this.columns = s2m.columns;
+            StringToMatrix s= new StringToMatrix(shape);
+            this.blocks     = s.blocks;
+            this.rows       = s.rows;
+            this.columns    = s.columns;
         }
 
         public char CellAt(int row, int col)

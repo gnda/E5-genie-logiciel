@@ -8,123 +8,127 @@ namespace Source
 {
     public class MovableGrid : Grid 
     {
-        int col;
-        int row;
-        Tetromino inner;
+        public int columns { get; private set; }
+        public int rows { get; private set; }
+        Tetromino tetromino;
 
-        public MovableGrid(Tetromino inner) : this(0,0, inner)
+        public MovableGrid(Tetromino tetromino) : this(0,0, tetromino)
         {
         }
-        private MovableGrid(int r, int c, Tetromino inner)
+        private MovableGrid(int moverow, int movecol, Tetromino tetromino)
         {
-            this.row = r;
-            this.col = c;
-            this.inner = inner;
-        }
-
-        int ToInnerRow(int r)
-        {
-            return r - row;
-        }
-        int ToOuterCol(int c)
-        {
-            return c + col;
-        }
-        int ToInnerCol(int c)
-        {
-            return c - col;
-        }
-        int ToOuterRow(int r)
-        {
-            return r + row;
+            this.rows = moverow;
+            this.columns = movecol;
+            this.tetromino = tetromino;
         }
 
-        public char CellAt(int r, int c)
+        int ToInnerRow(int moverow)
         {
-            int inner_row = ToInnerRow(r);
-            int inner_col = ToInnerCol(c);
-            return inner.CellAt(inner_row, inner_col);
+            return moverow - this.rows;
         }
-        public bool IsAt(int r, int c)
+        int ToOuterRow(int moverow)
         {
-            int inner_row = ToInnerRow(r);
-            int inner_col = ToInnerCol(c);
-            return inner_row >= 0
-                && inner_row < inner.Rows()
-                && inner_col >= 0
-                && inner_col < inner.Columns()
-                && inner.CellAt(inner_row, inner_col) != Board.EMPTY;
+            return moverow + this.rows;
+        }
+        int ToOuterCol(int movecol)
+        {
+            return movecol + this.columns;
+        }
+        int ToInnerCol(int movecol)
+        {
+            return movecol - this.columns;
+        }
+        
+
+        public char CellAt(int row, int col)
+        {
+            int moverow = ToInnerRow(row);
+            int movecol = ToInnerCol(col);
+            return this.tetromino.CellAt(moverow, movecol);
+        }
+        public bool IsAt(int row, int col)
+        {
+            int moverow = ToInnerRow(row);
+            int movecol = ToInnerCol(col);
+            return (moverow >= 0)
+                && (movecol >= 0)
+                && (moverow < this.tetromino.Rows())
+                && (movecol < this.tetromino.Columns())
+                && (this.tetromino.CellAt(moverow, movecol) != Board.EMPTY);
         }
 
         
         public int Columns()
         {
-            return inner.Columns();
+            return this.tetromino.Columns();
         }
         public int Rows()
         {
-            return inner.Rows();
+            return this.tetromino.Rows();
         }
-        public MovableGrid MoveTo(int r, int c)
+        public MovableGrid MoveTo(int moverow, int movecol)
         {
-            return new MovableGrid(r, c, inner);
+            return new MovableGrid(moverow, movecol, this.tetromino);
         }
         public MovableGrid MoveLeft()
         {
-            return new MovableGrid(row, col - 1, inner);
+            return new MovableGrid(this.rows, (this.columns - 1), this.tetromino);
         }
 
         public MovableGrid MoveRight()
         {
-            return new MovableGrid(row, col + 1, inner);
+            return new MovableGrid(this.rows, (this.columns + 1), this.tetromino);
         }
         public MovableGrid MoveDown()
         {
-            return new MovableGrid(row+1, col, inner);
+            return new MovableGrid(this.rows + 1, this.columns, this.tetromino);
         }
 
         public MovableGrid RotateRight()
         {
-            return new MovableGrid(row, col, inner.RotateRight());
+            return new MovableGrid(this.rows, this.columns, this.tetromino.RotateRight());
         }
 
         public MovableGrid RotateLeft()
         {
-            return new MovableGrid(row, col, inner.RotateLeft());
+            return new MovableGrid(this.rows, this.columns, this.tetromino.RotateLeft());
         }
 
-        public bool OutsideBoard(Board b)
+        public bool OutsideBoard(Board board)
         {
+            bool to_return = false;
             for (int row = 0; row < Rows(); row++)
             {
                 for (int col = 0; col < Columns(); col++)
                 {
-                    if (inner.CellAt(row, col)!= Board.EMPTY)
+                    if (tetromino.CellAt(row, col)!= Board.EMPTY)
                     {
-                        int outer_row = ToOuterRow(row);
-                        int outer_col = ToOuterCol(col);
-                        if (outer_col < 0 || outer_col >= b.columns || outer_row < 0 || outer_row >= b.rows)
+                        int moverow = ToOuterRow(row);
+                        int movecol = ToOuterCol(col);
+                        if ( 
+                            (movecol < 0) || (movecol >= board.columns) 
+                            || (moverow < 0) || (moverow >= board.rows)
+                            )
                         {
                             return true;
                         }
                     }
                 }
             }
-            return false;
+            return to_return;
         }
 
         public bool HitsAnotherBlock(Board board)
         {
-            //search on mat
             for (int row = 0; row < Rows(); row++)
             {
                 for (int col = 0; col < Columns(); col++)
                 {
-                    if (inner.CellAt(row, col) != Board.EMPTY)
+                    if (this.tetromino.CellAt(row, col) != Board.EMPTY)
                     {
-                        int outer_row = ToOuterRow(row);
-                        int outer_col = ToOuterCol(col);
-                        if (board.CellAt(outer_row, outer_col) != Board.EMPTY)
+                        int moverow = ToOuterRow(row);
+                        int movecol = ToOuterCol(col);
+                        if (board.CellAt(moverow, movecol) != Board.EMPTY)
                         {
                             return true;
                         }

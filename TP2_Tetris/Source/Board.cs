@@ -18,16 +18,16 @@ namespace Source
 
         #region init
 
-        public Board(int row, int column)
+        public Board(int row_size, int column_size)
         {
-            this.rows = row;
-            this.columns = column;
-            this.board = new char[row, column];
-            for (int r = 0; r < row; r++)
+            this.rows = row_size;
+            this.columns = column_size;
+            this.board = new char[this.rows, this.columns];
+            for (int row = 0; row < this.rows; row++)
             {
-                for (int c = 0; c < column; c++)
+                for (int col = 0; col < this.columns; col++)
                 {
-                    this.board[r, c] = EMPTY;
+                    this.board[row, col] = EMPTY;
                 }
             }
         }
@@ -42,34 +42,38 @@ namespace Source
         #endregion
 
         #region drop
-        public void Drop(Tetromino shape)
+      
+
+        public void Drop(Tetromino tetromino)
         {
             CheckIfFalling();
-            int r = StartingRowOffset(shape);
-            MovableGrid b = new MovableGrid(shape);
-            fallingBlock = b.MoveTo(r, (this.columns / 2) - (shape.Columns() / 2));
+            int row = StartingRowOffset(tetromino);
+            MovableGrid mg = new MovableGrid(tetromino);
+            this.fallingBlock = mg.MoveTo(row, (this.columns / 2) - (tetromino.Columns() / 2));
         }
 
-        public int StartingRowOffset(Grid shape)
+        public int StartingRowOffset(Grid form)
         {
-            for (int r = 0; r < shape.Rows(); r++)
+            int to_return = 0; 
+            for (int row = 0; row < form.Rows(); row++)
             {
-                for (int c = 0; c < shape.Columns(); c++)
+                for (int col = 0; col < form.Columns(); col++)
                 {
-                    if (shape.CellAt(r, c) != EMPTY)
+                    if (form.CellAt(row, col) != EMPTY)
                     {
-                        return -r;
+                        row = row*-1;
+                        return row;
                     }
                 }
             }
-            return 0;
+            return to_return;
         }
 
         void CheckIfFalling()
         {
             if (IsFallingBlock())
             {
-                throw new ArgumentException("Another block is already falling");
+                throw new ArgumentException("other is falling");
             }
         }
 
@@ -91,15 +95,15 @@ namespace Source
             {
                 return;
             }
-            MovableGrid test = this.fallingBlock.MoveDown();
-            if (ConflictwithBoard(test))
+            MovableGrid mg = this.fallingBlock.MoveDown();
+            if (ConflictwithBoard(mg))
             {
                 StopFallingBlock();
                 RemoveFullRows();
             }
             else
             {
-                fallingBlock = test;
+                this.fallingBlock = mg;
             }
         }
 
@@ -134,42 +138,43 @@ namespace Source
 
         List<int> FindFullRows()
         {
-            List<int> fullRows = new List<int>();
-            for (int r = 0; r < rows; r++)
+            List<int> allRows = new List<int>();
+            for (int row = 0; row < this.rows; row++)
             {
-                if (RowIsFull(r))
+                if (RowIsFull(row))
                 {
-                    fullRows.Add(r);
+                    allRows.Add(row);
                 }
             }
-            return fullRows;
+            return allRows;
         }
 
         bool RowIsFull(int row)
         {
-            for (int col = 0; col < columns; col++)
+            bool to_return = true;
+            for (int col = 0; col < this.columns; col++)
             {
                 if (board[row, col] == EMPTY)
                 {
-                    return false;
+                    to_return  = false;
                 }
             }
-            return true;
+            return to_return;
         }
 
-        void RemoveRows(List<int> rowsToRemove)
+        void RemoveRows(List<int> rm)
         {
-            foreach (int idx in rowsToRemove)
-                SqueezeRow(idx);
+            foreach (int row in rm)
+                SqueezeRow(row);
         }
 
-        void SqueezeRow(int idx)
+        void SqueezeRow(int i)
         {
-            for (int r = idx - 1; r >= 0; r--)
+            for (int row = (i - 1); row >= 0; row--)
             {
-                for (int c = 0; c < this.columns; c++)
+                for (int col = 0; col < this.columns; col++)
                 {
-                    board[r + 1, c] = board[r, c];
+                    this.board[row + 1, col] = this.board[row, col];
                 }
             }
         }
@@ -187,18 +192,18 @@ namespace Source
 
         public void MoveRight()
         {
-            if (!IsFallingBlock())
+            if (!this.IsFallingBlock())
             {
                 return;
             }
             TryMove(fallingBlock.MoveRight());
         }
 
-        private void TryMove(MovableGrid p)
+        private void TryMove(MovableGrid mg)
         {
-            if (!ConflictwithBoard(p))
+            if (!ConflictwithBoard(mg))
             {
-                fallingBlock = p;
+                this.fallingBlock = mg;
             }
         }
         #endregion
@@ -206,7 +211,7 @@ namespace Source
         #region rotate
         public void RotateRight()
         {
-            if (!IsFallingBlock())
+            if (!this.IsFallingBlock())
             {
                 return;
             }
@@ -215,28 +220,28 @@ namespace Source
 
         public void RotateLeft()
         {
-            if (!IsFallingBlock())
+            if (!this.IsFallingBlock())
             {
                 return;
             }
             TryRotate(this.fallingBlock.RotateLeft());
         }
 
-        void TryRotate(MovableGrid b)
+        void TryRotate(MovableGrid rotated)
         {
             MovableGrid[] moves =
             {
-                b,
-                b.MoveLeft(),
-                b.MoveRight(),
-                b.MoveLeft().MoveLeft(),
-                b.MoveRight().MoveRight() /**,**/
+                rotated,
+                rotated.MoveLeft(),     //  wallkick  moves
+                rotated.MoveRight(),
+                rotated.MoveLeft().MoveLeft(),
+                rotated.MoveRight().MoveRight()
             };
-            foreach (MovableGrid move in moves)
+            foreach (MovableGrid test in moves)
             {
-                if (!ConflictwithBoard(move))
+                if (!ConflictwithBoard(test))
                 {
-                    fallingBlock = move;
+                    this.fallingBlock = test;
                     return;
                 }
             }
@@ -245,15 +250,12 @@ namespace Source
 
         #region conflit
 
-        bool ConflictwithBoard(MovableGrid block)
+        bool ConflictwithBoard(MovableGrid rotated)
         {
-            return block.OutsideBoard(this) || block.HitsAnotherBlock(this);
+            return rotated.OutsideBoard(this) || rotated.HitsAnotherBlock(this);
         }
 
-        public char CellAt(int row, int col)
-        {
-            return board[row, col];
-        }
+
 
         #endregion
 
@@ -261,31 +263,37 @@ namespace Source
 
         public override String ToString()
         {
-            String value = "";
+            String to_return = "";
             for (int row = 0; row < this.rows; row++)
             {
                 for (int col = 0; col < this.columns; col++)
                 {
-                    value += StatusAt(row, col);
+                    to_return += StatusAt(row, col);
                 }
-                value += "\n";
+                to_return += "\n";
             }
-            return value;
+            return to_return;
         }
 
-        private char StatusAt(int row, int column)
+
+        private char StatusAt(int row, int col)
         {
 
-            if (this.fallingBlock != null && this.fallingBlock.IsAt(row, column))
+            if (this.fallingBlock != null && this.fallingBlock.IsAt(row, col))
             {
-                //Console.WriteLine("this.fallingBlock.getType(): {0}", CellAt(row, column));
-                return this.fallingBlock.CellAt(row, column);
+                //Console.WriteLine("this.fallingBlock.getType(): {0}", CellAt(row, col));
+                return this.fallingBlock.CellAt(row, col);
             }
             else
             {
-                //Console.WriteLine("this.block[row, column]: {0}", this.board[row, column]);
-                return CellAt(row, column);
+                //Console.WriteLine("this.block[row, col]: {0}", this.board[row, col]);
+                return CellAt(row, col);
             }
+        }
+
+        public char CellAt(int row, int col)
+        {
+            return this.board[row, col];
         }
 
         #endregion
