@@ -5,25 +5,25 @@ using Source;
 namespace Test
 {
     [TestClass] 
-    public classStep6_RemovingRowsTest
+    public class Step6
     { 
         Board board; 
         Tetromino piece;
         
         [TestInitialize]
-        public voidSetUp() { 
-            board = newBoard(6, 8); 
-            piece = newTetromino(".X.\n" + ".X.\n" + ".X.\n"); 
+        public void SetUp() { 
+            board = new Board(6, 8); 
+            piece = new Tetromino(".X.\n" + ".X.\n" + ".X.\n"); 
         } 
     
-        voidDropAndPushDown(){ 
+        void DropAndPushDown(){ 
             board.Drop(piece); 
             while (board.IsFallingBlock()) 
                 board.Tick(); 
         }
     
         [TestMethod]
-        public voidone_row_is_removed_and_the_empty_space_is_filled () { 
+        public void one_row_is_removed_and_the_empty_space_is_filled () { 
             board.FromString(
                   "........\n" 
                 + "........\n" 

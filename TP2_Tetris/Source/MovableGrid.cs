@@ -12,6 +12,7 @@ namespace Source
         public int rows { get; private set; }
         Tetromino tetromino;
 
+        #region constructor
         public MovableGrid(Tetromino tetromino) : this(0,0, tetromino)
         {
         }
@@ -22,34 +23,19 @@ namespace Source
             this.tetromino = tetromino;
         }
 
-        int ToInnerRow(int moverow)
-        {
-            return moverow - this.rows;
-        }
-        int ToOuterRow(int moverow)
-        {
-            return moverow + this.rows;
-        }
-        int ToOuterCol(int movecol)
-        {
-            return movecol + this.columns;
-        }
-        int ToInnerCol(int movecol)
-        {
-            return movecol - this.columns;
-        }
-        
+        #endregion
 
+        #region grid
         public char CellAt(int row, int col)
         {
-            int moverow = ToInnerRow(row);
-            int movecol = ToInnerCol(col);
+            int moverow = row - this.rows;
+            int movecol = col - this.columns;
             return this.tetromino.CellAt(moverow, movecol);
         }
         public bool IsAt(int row, int col)
         {
-            int moverow = ToInnerRow(row);
-            int movecol = ToInnerCol(col);
+            int moverow = row - this.rows;
+            int movecol = col-this.columns;
             return (moverow >= 0)
                 && (movecol >= 0)
                 && (moverow < this.tetromino.Rows())
@@ -66,6 +52,9 @@ namespace Source
         {
             return this.tetromino.Rows();
         }
+        #endregion
+
+        #region movable
         public MovableGrid MoveTo(int moverow, int movecol)
         {
             return new MovableGrid(moverow, movecol, this.tetromino);
@@ -83,6 +72,9 @@ namespace Source
         {
             return new MovableGrid(this.rows + 1, this.columns, this.tetromino);
         }
+        #endregion
+
+        #region rotate
 
         public MovableGrid RotateRight()
         {
@@ -93,7 +85,9 @@ namespace Source
         {
             return new MovableGrid(this.rows, this.columns, this.tetromino.RotateLeft());
         }
+        #endregion
 
+        #region is Outside the board 
         public bool OutsideBoard(Board board)
         {
             bool to_return = false;
@@ -103,8 +97,8 @@ namespace Source
                 {
                     if (tetromino.CellAt(row, col)!= Board.EMPTY)
                     {
-                        int moverow = ToOuterRow(row);
-                        int movecol = ToOuterCol(col);
+                        int moverow = row+this.rows;
+                        int movecol = col+this.columns;
                         if ( 
                             (movecol < 0) || (movecol >= board.columns) 
                             || (moverow < 0) || (moverow >= board.rows)
@@ -117,7 +111,9 @@ namespace Source
             }
             return to_return;
         }
+        #endregion 
 
+        #region hits other block
         public bool HitsAnotherBlock(Board board)
         {
             for (int row = 0; row < Rows(); row++)
@@ -126,9 +122,9 @@ namespace Source
                 {
                     if (this.tetromino.CellAt(row, col) != Board.EMPTY)
                     {
-                        int moverow = ToOuterRow(row);
-                        int movecol = ToOuterCol(col);
-                        if (board.CellAt(moverow, movecol) != Board.EMPTY)
+                        int moverow = row+this.rows;
+                        int movecol = col+ this.columns;
+                        if (board.cellule(moverow, movecol) != Board.EMPTY)
                         {
                             return true;
                         }
@@ -137,5 +133,6 @@ namespace Source
             }
             return false;
         }
+        #endregion
     }
 }

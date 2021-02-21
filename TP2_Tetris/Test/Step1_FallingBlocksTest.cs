@@ -216,7 +216,6 @@ namespace Test
             );
             Assert.IsFalse(board.IsFallingBlock());
         }
-
         #endregion
     }
 }

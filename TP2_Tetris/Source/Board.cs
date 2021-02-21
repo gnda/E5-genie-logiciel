@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace Source
 {
-
     public class Board
     {
         public static readonly char EMPTY = '.';
@@ -16,7 +15,7 @@ namespace Source
         public int rows { get; private set; }
         public int columns { get; private set; }
 
-        #region init
+        #region constructor
 
         public Board(int row_size, int column_size)
         {
@@ -31,6 +30,9 @@ namespace Source
                 }
             }
         }
+        #endregion
+
+        #region from string
 
         public void FromString(string blocks)
         {
@@ -42,7 +44,6 @@ namespace Source
         #endregion
 
         #region drop
-      
 
         public void Drop(Tetromino tetromino)
         {
@@ -51,7 +52,13 @@ namespace Source
             MovableGrid mg = new MovableGrid(tetromino);
             this.fallingBlock = mg.MoveTo(row, (this.columns / 2) - (tetromino.Columns() / 2));
         }
+        #endregion
 
+        #region falling
+        public bool IsFallingBlock()
+        {
+            return this.fallingBlock != null;
+        }
         public int StartingRowOffset(Grid form)
         {
             int to_return = 0; 
@@ -76,11 +83,6 @@ namespace Source
                 throw new ArgumentException("other is falling");
             }
         }
-
-        public bool IsFallingBlock()
-        {
-            return this.fallingBlock != null;
-        }
         #endregion
 
         #region tick
@@ -89,23 +91,7 @@ namespace Source
             MoveDown();
         }
 
-        public void MoveDown()
-        {
-            if (!IsFallingBlock())
-            {
-                return;
-            }
-            MovableGrid mg = this.fallingBlock.MoveDown();
-            if (ConflictwithBoard(mg))
-            {
-                StopFallingBlock();
-                RemoveFullRows();
-            }
-            else
-            {
-                this.fallingBlock = mg;
-            }
-        }
+        
 
         void StopFallingBlock()
         {
@@ -181,6 +167,13 @@ namespace Source
         #endregion
 
         #region move
+        private void TryMove(MovableGrid mg)
+        {
+            if (!ConflictwithBoard(mg))
+            {
+                this.fallingBlock = mg;
+            }
+        }
         public void MoveLeft()
         {
             if (!IsFallingBlock())
@@ -198,10 +191,19 @@ namespace Source
             }
             TryMove(fallingBlock.MoveRight());
         }
-
-        private void TryMove(MovableGrid mg)
+        public void MoveDown()
         {
-            if (!ConflictwithBoard(mg))
+            if (!IsFallingBlock())
+            {
+                return;
+            }
+            MovableGrid mg = this.fallingBlock.MoveDown();
+            if (ConflictwithBoard(mg))
+            {
+                StopFallingBlock();
+                RemoveFullRows();
+            }
+            else
             {
                 this.fallingBlock = mg;
             }
@@ -209,24 +211,6 @@ namespace Source
         #endregion
 
         #region rotate
-        public void RotateRight()
-        {
-            if (!this.IsFallingBlock())
-            {
-                return;
-            }
-            TryRotate(this.fallingBlock.RotateRight());
-        }
-
-        public void RotateLeft()
-        {
-            if (!this.IsFallingBlock())
-            {
-                return;
-            }
-            TryRotate(this.fallingBlock.RotateLeft());
-        }
-
         void TryRotate(MovableGrid rotated)
         {
             MovableGrid[] moves =
@@ -246,21 +230,33 @@ namespace Source
                 }
             }
         }
+        public void RotateRight()
+        {
+            if (!this.IsFallingBlock())
+            {
+                return;
+            }
+            TryRotate(this.fallingBlock.RotateRight());
+        }
+
+        public void RotateLeft()
+        {
+            if (!this.IsFallingBlock())
+            {
+                return;
+            }
+            TryRotate(this.fallingBlock.RotateLeft());
+        }
         #endregion
 
         #region conflit
-
         bool ConflictwithBoard(MovableGrid rotated)
         {
             return rotated.OutsideBoard(this) || rotated.HitsAnotherBlock(this);
         }
-
-
-
         #endregion
 
-        #region status
-
+        #region tostring
         public override String ToString()
         {
             String to_return = "";
@@ -274,8 +270,9 @@ namespace Source
             }
             return to_return;
         }
+        #endregion
 
-
+        #region status At
         private char StatusAt(int row, int col)
         {
 
@@ -287,16 +284,17 @@ namespace Source
             else
             {
                 //Console.WriteLine("this.block[row, col]: {0}", this.board[row, col]);
-                return CellAt(row, col);
+                return this.board[row, col];
             }
         }
+        #endregion
 
-        public char CellAt(int row, int col)
-        {
+        #region cellule
+        public char cellule(int row, int col) {
             return this.board[row, col];
         }
-
         #endregion
+
 
         /**
         bool OutsideBoard(MovableGrid block)

@@ -9,16 +9,18 @@ namespace Source
 {
     public class Tetromino : Grid
     {
+        public static readonly Tetromino T_SHAPE = Tetromino.CreateTshape();
+        public static readonly Tetromino O_SHAPE = Tetromino.CreateOshape();
+        public static readonly Tetromino Z_SHAPE = Tetromino.CreateZshape();
+        public static readonly Tetromino I_SHAPE = Tetromino.CreateIshape();
+        public static readonly Tetromino S_SHAPE = Tetromino.CreateSshape();
+        public static readonly Tetromino L_SHAPE = Tetromino.CreateLshape();
+        public static readonly Tetromino J_SHAPE = Tetromino.CreateJshape();
+
         Piece[] pieces;
         int shape;
-        public static readonly Tetromino T_SHAPE = Tetromino.CreateTshape();
-        public static readonly Tetromino L_SHAPE = Tetromino.CreateLshape();
-        public static readonly Tetromino I_SHAPE = Tetromino.CreateIshape();
-        public static readonly Tetromino J_SHAPE = Tetromino.CreateJshape();
-        public static readonly Tetromino O_SHAPE = Tetromino.CreateOshape();
-        public static readonly Tetromino S_SHAPE = Tetromino.CreateSshape();
-        public static readonly Tetromino Z_SHAPE = Tetromino.CreateZshape();
 
+        #region  constructor
         public Tetromino( Piece[] pieces)
         {
             this.pieces = pieces;
@@ -26,46 +28,78 @@ namespace Source
         }
         public Tetromino(int shape, Piece[] pieces)
         {
-            this.shape =  (shape + pieces.Length ) % pieces.Length;
+            this.shape =  (shape + pieces.Length) % pieces.Length;
             this.pieces = pieces;
         }
         public Tetromino(string orientation1, string orientation2,  string orientation3, string orientation4)
-        : this( new Piece[] { new Piece(orientation1), new Piece(orientation2), new Piece(orientation3), new Piece(orientation4) })
+        : this( 
+              new Piece[] { 
+                new Piece(orientation1), 
+                new Piece(orientation2), 
+                new Piece(orientation3), 
+                new Piece(orientation4) 
+              }
+        )
         {
         }
-
         public Tetromino(string orientation1, string orientation2)
-        : this( new Piece[] { new Piece(orientation1), new Piece(orientation2) })
+        : this( 
+              new Piece[] { 
+                  new Piece(orientation1), 
+                  new Piece(orientation2) 
+              
+              }
+        )
         {
         }
 
         public Tetromino(string orientation1)
-            : this( new Piece[] { new Piece(orientation1) })
+            : this( 
+                  new Piece[] { 
+                      new Piece(orientation1) 
+                  }
+        )
         {
         }
+        #endregion
 
+        #region grid : column & row & cellAt
+        public int Columns()
+        {
+            return pieces[shape].Columns();
+        }
+        public int Rows()
+        {
+            return pieces[shape].Rows();
+        }
+        public char CellAt(int row, int col)
+        {
+            return pieces[shape].CellAt(row, col);
+        }
+        #endregion
+
+        #region create Shape
         public static Tetromino CreateTshape()
         {
-           return  
-            new Tetromino(  
-                            "....\n" +
-                            "TTT.\n" +
-                            ".T..\n"
+            return
+             new Tetromino(
+                             "....\n" +
+                             "TTT.\n" +
+                             ".T..\n"
+                          ,
+                             ".T..\n" +
+                             "TT..\n" +
+                             ".T..\n"
+                          ,
+                             ".T..\n" +
+                             "TTT.\n" +
+                             "....\n"
                          ,
-                            ".T..\n" +
-                            "TT..\n" +
-                            ".T..\n"
-                         ,
-                            ".T..\n" +
-                            "TTT.\n" +
-                            "....\n"
-                        ,
-                            ".T..\n" +
-                            ".TT.\n" +
-                            ".T..\n"
-                            );
+                             ".T..\n" +
+                             ".TT.\n" +
+                             ".T..\n"
+                             );
         }
-
         public static Tetromino CreateSshape()
         {
             Tetromino s = 
@@ -169,7 +203,9 @@ namespace Source
             return t;
         }
 
+        #endregion
 
+        #region rotate
 
         public Tetromino RotateRight()
         {
@@ -180,35 +216,15 @@ namespace Source
         {
             return new Tetromino(this.shape - 1, this.pieces);
         }
+        #endregion
 
-        public string ToString()
-        {
-            int nb = this.shape;
-            return this.pieces[nb].ToString();
-        }
+        #region toString
 
-        private Piece Current()
+        public override string ToString()
         {
-            return pieces[shape];
+            return this.pieces[this.shape].ToString();
         }
-        public int Rows()
-        {
-            return Current().Rows();
-        }
+        #endregion
 
-        public int Columns()
-        {
-            return Current().Columns();
-        }
-
-        public Piece laPiece()
-        {
-            return this.pieces[this.shape];
-        }
-
-        public char CellAt(int row, int col)
-        {
-            return Current().CellAt(row, col);
-        }
     }
 }
