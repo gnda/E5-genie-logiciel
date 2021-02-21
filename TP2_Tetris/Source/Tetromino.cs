@@ -16,6 +16,8 @@ namespace Source
         public static readonly Tetromino I_SHAPE = Tetromino.CreateIshape();
         public static readonly Tetromino J_SHAPE = Tetromino.CreateJshape();
         public static readonly Tetromino O_SHAPE = Tetromino.CreateOshape();
+        public static readonly Tetromino S_SHAPE = Tetromino.CreateSshape();
+        public static readonly Tetromino Z_SHAPE = Tetromino.CreateZshape();
 
         public Tetromino( Piece[] pieces)
         {
