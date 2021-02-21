@@ -37,7 +37,7 @@ namespace Source
         public void FromString(string blocks)
         {
             StringToMatrix stm = new StringToMatrix(blocks);
-            this.board = stm.blocks;
+            this.board = stm.matrix;
             this.rows = stm.rows;
             this.columns = stm.columns;
         }

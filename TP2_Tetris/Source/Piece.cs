@@ -14,9 +14,9 @@ namespace Source
         public Piece(string shape)
         {
             StringToMatrix s= new StringToMatrix(shape);
-            this.blocks     = s.blocks;
             this.rows       = s.rows;
             this.columns    = s.columns;
+            this.blocks     = s.matrix;
         }
         #endregion
 

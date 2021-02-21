@@ -14,7 +14,7 @@ namespace Test
 
             StringToMatrix converter = new StringToMatrix(grid);
 
-            CollectionAssert.AreEqual(converter.blocks, new char[,] {
+            CollectionAssert.AreEqual(converter.matrix, new char[,] {
                 {'.','.','.'},
                 {'.','.','.'},
                 {'.','.','.'}
@@ -39,7 +39,7 @@ namespace Test
             string grid = "...\n...\n...\n";
             StringToMatrix converter = new StringToMatrix(grid);
 
-            CollectionAssert.AreEqual(converter.blocks, new char[,]
+            CollectionAssert.AreEqual(converter.matrix, new char[,]
             {
                 {'.','.','.' },
                 {'.','.','.' },
