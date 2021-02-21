@@ -43,14 +43,14 @@ namespace Test
 
         private void DropBlock(char c)
         {
-            //board.Drop(new MovableGrid(c));
+            board.Drop(new Tetromino(c+"\n"));
         }
 
         [TestMethod]
         public void block_is_falling()
         {
             // act
-            DropBlock('x');
+            DropBlock('X');
 
             // assert
             Assert.IsTrue(board.IsFallingBlock());
