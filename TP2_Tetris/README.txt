@@ -1,6 +1,6 @@
 #Tetris by TDD
 
-Done Step 1 to 5 (included)
+Done Step 1 to 6 (included)
 
 ##Authors 
 Kévin Nandacoumar - E5FIC
