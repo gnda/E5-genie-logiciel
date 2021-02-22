@@ -91,9 +91,9 @@ namespace Source
                              "TT..\n" +
                              ".T..\n"
                           ,
+                             "....\n" +
                              ".T..\n" +
-                             "TTT.\n" +
-                             "....\n"
+                             "TTT.\n"
                          ,
                              ".T..\n" +
                              ".TT.\n" +
