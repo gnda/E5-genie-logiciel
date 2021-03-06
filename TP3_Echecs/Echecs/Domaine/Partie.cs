@@ -73,17 +73,17 @@ namespace Echecs.Domaine
             /* FIN TEST */
 
             // case de départ
-            //Case depart = echiquier.cases[x_depart, y_depart];
+            Case depart = echiquier.cases[x_depart, y_depart];
 
             // case d'arrivée
-            //Case destination = echiquier.cases[x_arrivee, y_arrivee];
+            Case destination = echiquier.cases[x_arrivee, y_arrivee];
 
             // deplacer
-            //bool ok = depart.piece.Deplacer(destination);
+            bool ok = depart.piece.Deplacer(destination);
 
             // changer d'état
-            //if (ok)
-            //    ChangerEtat();
+            if (ok)
+                ChangerEtat();
         }
 
         void ChangerEtat(bool echec = false, bool mat = false)

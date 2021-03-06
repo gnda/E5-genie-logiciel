@@ -41,22 +41,20 @@ namespace Echecs.Domaine
             }
         }
 
-        internal void PlacerPieces(Echiquier echiquier)
-        {
-            throw new NotImplementedException();
-        }
+        
 
         // TODO : décommentez lorsque vous auriez implementé les methode Unlink et Link de la classe Case
-        //public void PlacerPieces(Echiquier echiquier)
-        //{
-        //    if( couleur == CouleurCamp.Noire )
-        //    {
-        //        echiquier.cases[3, 0].Link( pieces[0] );
-        //    }
-        //    else
-        //    {
-        //        echiquier.cases[3, 7].Link( pieces[0] );
-        //    }
-        //}
+        //public void ... 
+        internal void PlacerPieces(Echiquier echiquier)
+        {
+            if( couleur == CouleurCamp.Noire )
+            {
+                echiquier.cases[3, 0].Link( pieces[0] );
+            }
+            else
+            {
+                echiquier.cases[3, 7].Link( pieces[0] );
+            }
+        }
     }
 }

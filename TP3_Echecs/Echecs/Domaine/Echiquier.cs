@@ -9,13 +9,12 @@ namespace TP2_Echecs.Domaine
 {
     class Echiquier
     {
-        public int[,] cases;
+        public Case[,] cases;
+        public Partie Partie { get; }
 
         public Echiquier(Partie partie)
         {
             Partie = partie;
         }
-
-        public Partie Partie { get; }
     }
 }
