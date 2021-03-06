@@ -21,10 +21,19 @@ namespace Echecs.Domaine
         public void Link(Piece newPiece)
         {
             // 1. Deconnecter newPiece de l'ancienne case
-
+            UnLink(newPiece);
             // 2. Connecter newPiece à cette case
         }
 
-        
+        public void UnLink(Piece newPiece)
+        {
+            //1. Annule la référence sur l’objet Piece
+            this.piece = null;
+
+            //2. Soulève un événement ActualiserCase
+            // comment car ds Partie ???
+        }
+
+
     }
 }
