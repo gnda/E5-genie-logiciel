@@ -10,7 +10,7 @@ namespace Echecs.Domaine
 {
     public class Partie : IJeu
     {
-        public IEvenements vue
+        public IHM.IEvenements vue
         {
             get { return _vue; }
             set {_vue = value; }
@@ -33,8 +33,8 @@ namespace Echecs.Domaine
 
 
         /* associations */
-        
-        IEvenements _vue;
+
+        IHM.IEvenements _vue;
         Joueur blancs;
         Joueur noirs;
         
