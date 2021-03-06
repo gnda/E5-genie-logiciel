@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Echecs.IHM;
+using TP2_Echecs.Domaine;
 
 namespace Echecs.Domaine
 {
@@ -38,6 +39,11 @@ namespace Echecs.Domaine
             {
                 pieces.Add(new PionsBase(this));
             }
+        }
+
+        internal void PlacerPieces(Echiquier echiquier)
+        {
+            throw new NotImplementedException();
         }
 
         // TODO : décommentez lorsque vous auriez implementé les methode Unlink et Link de la classe Case

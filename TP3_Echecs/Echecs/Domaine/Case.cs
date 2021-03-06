@@ -15,7 +15,7 @@ namespace Echecs.Domaine
         private int row;
 
         // associations
-        private Piece piece;
+        public Piece piece;
 
         // methodes
         public void Link(Piece newPiece)
