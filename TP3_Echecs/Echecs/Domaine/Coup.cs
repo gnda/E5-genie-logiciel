@@ -1,16 +1,21 @@
-﻿using Echecs.Domaine;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TP2_Echecs.Domaine
+﻿namespace Echecs.Domaine
 {
     class Coup
     {
-        private Case depart;
-        private Case arrivee;
+        Piece piece;
+        Case depart;
+        Case arrivee;
 
+        public Coup(Case depart, Case arrivee)
+        {
+            this.depart = depart;
+            this.arrivee = arrivee;
+            piece = this.depart.piece;
+        }
+
+        public bool Effectuer()
+        {
+            return piece.Deplacer(arrivee);
+        }
     }
 }

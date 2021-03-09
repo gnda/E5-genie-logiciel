@@ -1,61 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Echecs.IHM;
-
-namespace Echecs.Domaine
+﻿namespace Echecs.Domaine
 {
-    public class Case : IEvenements
+    public class Case
     {
         // attributs
-        private CouleurCamp color;
-        private int col;
-        private int row;
+        public int x, y;
 
         // associations
+        public Echiquier echiquier;
         public Piece piece;
+
+        public Case(Echiquier echiquier, int x, int y)
+        {
+            this.echiquier = echiquier;
+            this.x = x;
+            this.y = y;
+        }
 
         // methodes
         public void Link(Piece newPiece)
         {
-            //old = position
             // 1. Deconnecter newPiece de l'ancienne case
-            UnLink(newPiece);
+            var old = newPiece.position;
+            if (old != null)
+            {
+                old.UnLink();
+            }
 
             // 2. Connecter newPiece à cette case
-            this.piece = newPiece;
-            //private ==> InfoPiece ip = new InfoPiece(newPiece.GetType(),this.color);
-            //this.ActualiserCase(col,row,info_piece); // info_piece(type ?,couleur ok)
+            piece = newPiece;
+            newPiece.position = this;
+
+            echiquier.partie.vue.ActualiserCase(x, y, piece.info);
         }
 
-        public void UnLink(Piece newPiece)
+        public void UnLink()
         {
-            
-            //1. Annule la référence sur l’objet Piece
-            this.piece = null; 
+            // 1. Annule la référence sur l’objet Piece
+            piece.position = null;
+            piece = null;
 
-            //2. Soulève un événement ActualiserCase
-            // comment car ds Partie ???
-        }
-        
-        public void ActualiserPartie(StatusPartie status)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ActualiserCase(int x, int y, InfoPiece info)
-        {
-            this.col = x;
-            this.row = y;
-            this.color = info.couleur;
-            throw new NotImplementedException();
-        }
-
-        public void ActualiserCaptures(List<InfoPiece> pieces)
-        {
-            throw new NotImplementedException();
+            // 2. Soulève un événement ActualiserCase
+            echiquier.partie.vue.ActualiserCase(x, y, null);
         }
     }
 }

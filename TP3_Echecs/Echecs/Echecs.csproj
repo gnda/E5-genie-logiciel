@@ -48,17 +48,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domaine\Case.cs" />
-    <Compile Include="Domaine\CavalierBase.cs" />
+    <Compile Include="Domaine\Cavalier.cs" />
+    <Compile Include="Domaine\Base.cs" />
     <Compile Include="Domaine\Coup.cs" />
     <Compile Include="Domaine\Echiquier.cs" />
-    <Compile Include="Domaine\FouBase.cs" />
+    <Compile Include="Domaine\Fou.cs" />
     <Compile Include="Domaine\Joueur.cs" />
     <Compile Include="Domaine\Partie.cs" />
     <Compile Include="Domaine\Piece.cs" />
     <Compile Include="Domaine\Dame.cs" />
-    <Compile Include="Domaine\PionsBase.cs" />
-    <Compile Include="Domaine\RoiBase.cs" />
-    <Compile Include="Domaine\ToursBase.cs" />
+    <Compile Include="Domaine\Pion.cs" />
+    <Compile Include="Domaine\Roi.cs" />
+    <Compile Include="Domaine\Tour.cs" />
     <Compile Include="IHM\FenetreDeJeu.cs">
       <SubType>Form</SubType>
     </Compile>

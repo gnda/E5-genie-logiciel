@@ -2,9 +2,12 @@
 
 namespace Echecs.Domaine
 {
-    public class ToursBase : Piece
+    public class Pion: Piece
     {
-        public ToursBase(Joueur joueur) : base(joueur, TypePiece.Tour) { }
+        public Pion(Joueur joueur) : base(joueur, TypePiece.Pion) {
+            peutGlisser = false;
+            //InitTabDeplacements();
+        }
 
         public override bool Deplacer(Case destination)
         {

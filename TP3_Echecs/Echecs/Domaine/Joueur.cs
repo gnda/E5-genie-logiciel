@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Echecs.IHM;
-using TP2_Echecs.Domaine;
+using System;
 
 namespace Echecs.Domaine
 {
@@ -17,43 +13,46 @@ namespace Echecs.Domaine
         public Partie partie;
         public List<Piece> pieces = new List<Piece>();
 
-
         // methodes
         public Joueur(Partie partie, CouleurCamp couleur)
         {
             this.couleur = couleur;
             this.partie = partie;
 
-            //définission
-
             // TODO : creation des pieces du joueur
-            pieces.Add( new Dame(this) );
-            pieces.Add(new ToursBase(this));
-            pieces.Add(new ToursBase(this));
-            pieces.Add(new FouBase(this));
-            pieces.Add(new FouBase(this));
-            pieces.Add(new RoiBase(this));
-            pieces.Add(new CavalierBase(this));
-            pieces.Add(new CavalierBase(this));
-            for (int i = 0; i<8; i++)
+            pieces.Add(new Tour(this));
+            pieces.Add(new Cavalier(this));
+            pieces.Add(new Fou(this));
+            pieces.Add(new Dame(this));
+            pieces.Add(new Roi(this));
+            pieces.Add(new Fou(this));
+            pieces.Add(new Cavalier(this));
+            pieces.Add(new Tour(this));
+            for (int i = 0; i < 8; i++)
             {
-                pieces.Add(new PionsBase(this));
+                pieces.Add(new Pion(this));
             }
         }
 
-        
-
         // TODO : décommentez lorsque vous auriez implementé les methode Unlink et Link de la classe Case
-        //public void ... 
-        internal void PlacerPieces(Echiquier echiquier)
+        public void PlacerPieces(Echiquier echiquier)
         {
-            if( couleur == CouleurCamp.Noire )
+            int rangee = (couleur == CouleurCamp.Noire) ? -1 : 8;
+
+            for (int i = 0; i < pieces.Count; i++)
             {
-                echiquier.cases[3, 0].Link( pieces[0] );
-            }
-            else
-            {
-                echiquier.cases[3, 7].Link( pieces[0] );
+                int colonne = i % 8;
+
+                if (couleur == CouleurCamp.Noire)
+                {
+                    rangee = (colonne == 0) ? ++rangee : rangee;
+                }
+                else
+                {
+                    rangee = (colonne == 0) ? --rangee : rangee;
+                }
+                
+                echiquier.cases[colonne, rangee].Link(pieces[i]);
             }
         }
     }

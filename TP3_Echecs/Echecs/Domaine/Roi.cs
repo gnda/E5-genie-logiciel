@@ -2,12 +2,12 @@
 
 namespace Echecs.Domaine
 {
-    public class Dame : Piece
+    public class Roi : Piece
     {
-        public Dame(Joueur joueur) : base(joueur, TypePiece.Dame) {
-            peutGlisser = true;
+        public Roi(Joueur joueur) : base(joueur, TypePiece.Roi) {
+            peutGlisser = false;
             decDeplacements = new int[] { -11, -10, -9, -1, 1, 9, 10, 11 };
             InitTabDeplacements();
-        }       
+        }
     }
 }
