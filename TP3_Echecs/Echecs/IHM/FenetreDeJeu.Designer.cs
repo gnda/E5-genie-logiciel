@@ -190,6 +190,7 @@
             // 
             // tbrResumePlay
             // 
+            this.tbrResumePlay.Enabled = false;
             this.tbrResumePlay.ImageIndex = 8;
             this.tbrResumePlay.Name = "tbrResumePlay";
             this.tbrResumePlay.Tag = "ResumePlay";
@@ -197,7 +198,6 @@
             // 
             // tbrPausePlay
             // 
-            this.tbrPausePlay.Enabled = false;
             this.tbrPausePlay.ImageIndex = 9;
             this.tbrPausePlay.Name = "tbrPausePlay";
             this.tbrPausePlay.Tag = "PausePlay";

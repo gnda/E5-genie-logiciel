@@ -1,6 +1,6 @@
 ﻿namespace Echecs.Domaine
 {
-    class Coup
+    public class Coup
     {
         Piece piece;
         Case depart;

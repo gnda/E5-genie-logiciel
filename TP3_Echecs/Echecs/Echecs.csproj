@@ -49,7 +49,6 @@
   <ItemGroup>
     <Compile Include="Domaine\Case.cs" />
     <Compile Include="Domaine\Cavalier.cs" />
-    <Compile Include="Domaine\Base.cs" />
     <Compile Include="Domaine\Coup.cs" />
     <Compile Include="Domaine\Echiquier.cs" />
     <Compile Include="Domaine\Fou.cs" />

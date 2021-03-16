@@ -12,6 +12,7 @@ namespace Echecs.Domaine
         // associations
         public Partie partie;
         public List<Piece> pieces = new List<Piece>();
+        public List<InfoPiece> piecesCapturees = new List<InfoPiece>();
 
         // methodes
         public Joueur(Partie partie, CouleurCamp couleur)
@@ -54,6 +55,12 @@ namespace Echecs.Domaine
                 
                 echiquier.cases[colonne, rangee].Link(pieces[i]);
             }
+        }
+
+        public void CapturerPiece(Piece piece)
+        {
+            piecesCapturees.Add(piece.info);
+            partie.vue.ActualiserCaptures(piecesCapturees);
         }
     }
 }

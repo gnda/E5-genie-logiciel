@@ -35,7 +35,7 @@ namespace Echecs.Domaine
         Joueur noirs;
         
         Echiquier echiquier;  // TODO : décommentez lorsque vous auriez implementé la classe Echiquier
-        List<Coup> coups;
+        public List<Coup> coups;
 
         /* methodes */
 
