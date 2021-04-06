@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Domaine
 {
@@ -11,7 +7,6 @@ namespace Domaine
         public virtual int Id { get; set; }
         public virtual string Titre { get; set; }
         public virtual string Auteur { get; set; }
-
         public virtual IList<Exemplaire> Exemplaires { get; set; }
 
         public Ouvrage()
@@ -21,16 +16,16 @@ namespace Domaine
 
         public Ouvrage(string titre, string auteur)
         {
-            this.Titre = titre;
-            this.Auteur = auteur;
+            Titre = titre;
+            Auteur = auteur;
             Exemplaires = new List<Exemplaire>();
         }
 
         public override string ToString()
         {
-            return
-                  "Titre : " + this.Titre
-                + " Auteur : " + this.Auteur
+            return "Id : " + Id
+                 + " | Titre : " + Titre
+                 + " | Auteur : " + Auteur
             ;
         }
     }

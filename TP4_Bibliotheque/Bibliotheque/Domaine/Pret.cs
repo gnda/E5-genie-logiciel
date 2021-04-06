@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domaine
 {
@@ -24,14 +20,10 @@ namespace Domaine
 
         public override string ToString()
         {
-            return
-                //  "Id : " + this.Id
-                //+ 
-                  Exemplaire.ToString()
-                + " E : " + this.DateEmprunt.ToShortDateString()
-                + " R : " + this.DateRetour.ToShortDateString()
-                
-            ;
+            return Exemplaire.ToString()
+                + " | Date Emprunt : " + DateEmprunt.ToShortDateString()
+                + " | Date Retour : " + (DateRetour == DateTime.MinValue ? 
+                    "?" : DateRetour.ToShortDateString());
         }
     }
 }

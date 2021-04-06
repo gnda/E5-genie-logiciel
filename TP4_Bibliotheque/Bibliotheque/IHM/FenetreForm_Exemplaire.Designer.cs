@@ -31,10 +31,10 @@ namespace Bibliotheque.IHM
         {
             this.label_title = new System.Windows.Forms.Label();
             this.label_nom = new System.Windows.Forms.Label();
-            this.textBox_nom = new System.Windows.Forms.TextBox();
             this.btn = new System.Windows.Forms.Button();
             this.comboBox_ouvrage = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.comboBox_etat = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // label_title
@@ -43,9 +43,10 @@ namespace Bibliotheque.IHM
             this.label_title.AccessibleName = "label_title";
             this.label_title.AutoSize = true;
             this.label_title.Font = new System.Drawing.Font("Microsoft Sans Serif", 18.25F);
-            this.label_title.Location = new System.Drawing.Point(52, 41);
+            this.label_title.Location = new System.Drawing.Point(69, 50);
+            this.label_title.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_title.Name = "label_title";
-            this.label_title.Size = new System.Drawing.Size(259, 29);
+            this.label_title.Size = new System.Drawing.Size(312, 35);
             this.label_title.TabIndex = 7;
             this.label_title.Text = "Ajouter un exemplaire";
             // 
@@ -55,21 +56,12 @@ namespace Bibliotheque.IHM
             this.label_nom.AccessibleName = "label_nom";
             this.label_nom.AutoSize = true;
             this.label_nom.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
-            this.label_nom.Location = new System.Drawing.Point(53, 92);
+            this.label_nom.Location = new System.Drawing.Point(71, 113);
+            this.label_nom.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_nom.Name = "label_nom";
-            this.label_nom.Size = new System.Drawing.Size(44, 20);
+            this.label_nom.Size = new System.Drawing.Size(50, 25);
             this.label_nom.TabIndex = 8;
-            this.label_nom.Text = "Nom";
-            // 
-            // textBox_nom
-            // 
-            this.textBox_nom.AccessibleDescription = "textBox_nom";
-            this.textBox_nom.AccessibleName = "textBox_nom";
-            this.textBox_nom.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
-            this.textBox_nom.Location = new System.Drawing.Point(57, 125);
-            this.textBox_nom.Name = "textBox_nom";
-            this.textBox_nom.Size = new System.Drawing.Size(350, 26);
-            this.textBox_nom.TabIndex = 9;
+            this.label_nom.Text = "État";
             // 
             // btn
             // 
@@ -79,9 +71,10 @@ namespace Bibliotheque.IHM
             this.btn.BackColor = System.Drawing.Color.ForestGreen;
             this.btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
             this.btn.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btn.Location = new System.Drawing.Point(57, 238);
+            this.btn.Location = new System.Drawing.Point(76, 293);
+            this.btn.Margin = new System.Windows.Forms.Padding(4);
             this.btn.Name = "btn";
-            this.btn.Size = new System.Drawing.Size(350, 49);
+            this.btn.Size = new System.Drawing.Size(467, 60);
             this.btn.TabIndex = 10;
             this.btn.Text = "Ajouter";
             this.btn.UseVisualStyleBackColor = false;
@@ -91,11 +84,13 @@ namespace Bibliotheque.IHM
             // 
             this.comboBox_ouvrage.AccessibleDescription = "comboBox_ouvrage";
             this.comboBox_ouvrage.AccessibleName = "comboBox_ouvrage";
+            this.comboBox_ouvrage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_ouvrage.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
             this.comboBox_ouvrage.FormattingEnabled = true;
-            this.comboBox_ouvrage.Location = new System.Drawing.Point(57, 193);
+            this.comboBox_ouvrage.Location = new System.Drawing.Point(76, 238);
+            this.comboBox_ouvrage.Margin = new System.Windows.Forms.Padding(4);
             this.comboBox_ouvrage.Name = "comboBox_ouvrage";
-            this.comboBox_ouvrage.Size = new System.Drawing.Size(350, 28);
+            this.comboBox_ouvrage.Size = new System.Drawing.Size(465, 33);
             this.comboBox_ouvrage.TabIndex = 12;
             // 
             // label2
@@ -104,23 +99,38 @@ namespace Bibliotheque.IHM
             this.label2.AccessibleName = "label_nom";
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
-            this.label2.Location = new System.Drawing.Point(53, 170);
+            this.label2.Location = new System.Drawing.Point(71, 207);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(44, 20);
+            this.label2.Size = new System.Drawing.Size(140, 25);
             this.label2.TabIndex = 14;
-            this.label2.Text = "Nom";
+            this.label2.Text = "Nom ouvrage";
+            // 
+            // comboBox_etat
+            // 
+            this.comboBox_etat.AccessibleDescription = "comboBox_etat";
+            this.comboBox_etat.AccessibleName = "comboBox_etat";
+            this.comboBox_etat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_etat.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
+            this.comboBox_etat.FormattingEnabled = true;
+            this.comboBox_etat.Location = new System.Drawing.Point(75, 142);
+            this.comboBox_etat.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBox_etat.Name = "comboBox_etat";
+            this.comboBox_etat.Size = new System.Drawing.Size(465, 33);
+            this.comboBox_etat.TabIndex = 15;
             // 
             // FenetreForm_Exemplaire
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(459, 334);
+            this.ClientSize = new System.Drawing.Size(612, 411);
+            this.Controls.Add(this.comboBox_etat);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.comboBox_ouvrage);
             this.Controls.Add(this.btn);
-            this.Controls.Add(this.textBox_nom);
             this.Controls.Add(this.label_nom);
             this.Controls.Add(this.label_title);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FenetreForm_Exemplaire";
             this.Text = "FenetreForm_Exemplaire";
             this.ResumeLayout(false);
@@ -132,9 +142,9 @@ namespace Bibliotheque.IHM
 
         private System.Windows.Forms.Label label_title;
         private System.Windows.Forms.Label label_nom;
-        private System.Windows.Forms.TextBox textBox_nom;
         private System.Windows.Forms.Button btn;
         private System.Windows.Forms.ComboBox comboBox_ouvrage;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox comboBox_etat;
     }
 }

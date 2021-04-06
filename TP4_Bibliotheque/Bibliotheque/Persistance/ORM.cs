@@ -38,7 +38,8 @@ namespace Persistance
                 .Conventions.Add(
                     DefaultCascade.All(),
                     DefaultLazy.Always()
-                 );
+                 )
+                .UseOverridesFromAssemblyOf<T>();
         }
 
         static void BuildSchemaIfFileIsMissing(Configuration config)

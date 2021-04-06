@@ -60,7 +60,6 @@ namespace Bibliotheque.IHM
             this.textBox_nom.Name = "textBox_nom";
             this.textBox_nom.Size = new System.Drawing.Size(242, 23);
             this.textBox_nom.TabIndex = 1;
-            this.textBox_nom.TextChanged += new System.EventHandler(this.textBox_nom_TextChanged);
             // 
             // label_nom
             // 
@@ -73,7 +72,6 @@ namespace Bibliotheque.IHM
             this.label_nom.Size = new System.Drawing.Size(44, 20);
             this.label_nom.TabIndex = 3;
             this.label_nom.Text = "Nom";
-            this.label_nom.Click += new System.EventHandler(this.label_nom_Click);
             // 
             // label_title
             // 
@@ -86,7 +84,6 @@ namespace Bibliotheque.IHM
             this.label_title.Size = new System.Drawing.Size(234, 29);
             this.label_title.TabIndex = 5;
             this.label_title.Text = "Ajouter un adhérent";
-            this.label_title.Click += new System.EventHandler(this.label3_Click);
             // 
             // FenetreForm_Adherent
             // 
@@ -100,7 +97,6 @@ namespace Bibliotheque.IHM
             this.Controls.Add(this.btn);
             this.Name = "FenetreForm_Adherent";
             this.Text = "Adhérent";
-            this.Load += new System.EventHandler(this.FenetreForm_Adherent_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

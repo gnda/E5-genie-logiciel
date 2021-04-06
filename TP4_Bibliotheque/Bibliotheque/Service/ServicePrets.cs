@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Service
 {
@@ -15,7 +13,7 @@ namespace Service
         {
             using (IUnitOfWork uow = BeginTransaction())
             {
-                List<Pret> liste = depotPrets.Query().Where(p => true /* TODO: écrire la bonne condition logique */).ToList();
+                List<Pret> liste = depotPrets.Query().Where(p => p.Adherent.Id == id_adherent).ToList();
                 uow.Commit();
                 return liste;
             }
@@ -26,17 +24,15 @@ namespace Service
         {
             using (IUnitOfWork uow = BeginTransaction())
             {
-                
-                    Adherent adh = depotAdherents.Read(idAdherent);
-                    Exemplaire ex = depotExemplaires.Read(idExemplaire);
+                Adherent adh = depotAdherents.Read(idAdherent);
+                Exemplaire ex = depotExemplaires.Read(idExemplaire);
 
-                    if(adh == null)  throw new Exception(" Pas d'adherent");
-                    if (ex == null) throw new Exception(" Pas d'exemplaire");
-                    adh.Emprunte(ex);
-                    depotAdherents.Update(adh);
+                if(adh == null)  throw new Exception(" Pas d'adherent");
+                if (ex == null) throw new Exception(" Pas d'exemplaire");
+                adh.Emprunte(ex);
+                depotAdherents.Update(adh);
 
-                    uow.Commit();               
-
+                uow.Commit();
             }
         }
 
@@ -44,20 +40,16 @@ namespace Service
         {
             using (IUnitOfWork uow = BeginTransaction())
             {
-               
-                    Exemplaire ex = depotExemplaires.Read(idExemplaire);
+                Exemplaire ex = depotExemplaires.Read(idExemplaire);
                 if (ex == null) throw new Exception(" Pas d'exemplaire");
                 
-                if (ex.Adherent == null) throw new Exception(" Pas d'adherent, donc livre non empruntée et pas à rendre");
+                if (ex.Adherent == null) throw new Exception(" Pas d'adherent, livre non emprunté");
 
                 Adherent adh = ex.Adherent;
                 adh.Retourne(ex);
                 depotAdherents.Update(adh);
                 depotExemplaires.Update(ex);
-
-                    uow.Commit();
-                
-
+                uow.Commit();
             }
         }
     }

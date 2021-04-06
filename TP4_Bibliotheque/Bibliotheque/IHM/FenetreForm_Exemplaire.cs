@@ -3,12 +3,7 @@ using IHM;
 using Service;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Bibliotheque.IHM
@@ -19,7 +14,7 @@ namespace Bibliotheque.IHM
         List<Ouvrage> ouvrages;
         ServiceExemplaires serviceExemplaires;
         IList<Exemplaire> exemplaires;
-        int idx;
+        Exemplaire exemplaire;
 
         public FenetreForm_Exemplaire(
             ServiceOuvrages serviceOuvrages,
@@ -27,15 +22,19 @@ namespace Bibliotheque.IHM
             ServiceExemplaires serviceExemplaires,
             IList<Exemplaire> exemplaires,
             string titre,
-            int idx
+            Exemplaire exemplaire = null
             )
         {
             InitializeComponent();
-            this.idx = idx;
             this.ouvrages = ouvrages;
             this.serviceExemplaires = serviceExemplaires;
             this.serviceOuvrages = serviceOuvrages;
             this.exemplaires = exemplaires;
+            if (exemplaire != null)
+            {
+                this.exemplaire = (exemplaires as List<Exemplaire>)
+                    .Find(ex => ex.Id == exemplaire.Id);
+            }
             label_title.Text = titre;
             btn.Text = titre;
 
@@ -43,17 +42,22 @@ namespace Bibliotheque.IHM
             {
                 comboBox_ouvrage.Items.Add(this.ouvrages[i].ToString());
             }
-            if (this.idx != -1)
-            {
-                int index = comboBox_ouvrage.FindString(this.exemplaires[idx].Ouvrage.ToString());
-                comboBox_ouvrage.SelectedIndex = index;
-                textBox_nom.Text = exemplaires[idx].Etat;
-            }
 
-            
+            comboBox_etat.Items.Add("Neuf");
+            comboBox_etat.Items.Add("Abîmé");
+            comboBox_etat.Items.Add("Usé");
+            comboBox_etat.Items.Add("Correct");
+
+            if (this.exemplaire != null)
+            {
+                int index = comboBox_ouvrage.FindString(this.exemplaire.Ouvrage.ToString());
+                comboBox_ouvrage.SelectedIndex = index;
+                index = comboBox_etat.FindString(this.exemplaire.Etat);
+                comboBox_etat.SelectedIndex = index;
+            }
         }
 
-        private void actualiser()
+        private void Actualiser()
         {
             var mainForm = Application.OpenForms.OfType<Fenetre>().Single();
             mainForm.Actualiser();
@@ -61,9 +65,7 @@ namespace Bibliotheque.IHM
 
         private void btn_Click(object sender, EventArgs e)
         {
-            
-            // verifier si c'est remplie
-            if (textBox_nom.Text != "" && comboBox_ouvrage.Text != "")
+            if (comboBox_etat.Text != "" && comboBox_ouvrage.Text != "")
             {
                 bool to_return = true;
                 if (to_return)
@@ -71,35 +73,36 @@ namespace Bibliotheque.IHM
                     int id_ouvrage = comboBox_ouvrage.FindString(comboBox_ouvrage.Text);
                     if (id_ouvrage < 0)
                     {
-                        MessageBox.Show("Item not found.");
+                        MessageBox.Show("L'ouvrage n'existe pas");
                         comboBox_ouvrage.Text = String.Empty;
+                        return;
                     }
                     else
                     {
                         comboBox_ouvrage.SelectedIndex = id_ouvrage;
                     }
-                    if (this.idx == -1)
+                    if (exemplaire == null)
                     {
-                        serviceExemplaires.Ajouter(new Exemplaire(textBox_nom.Text, this.ouvrages[id_ouvrage]));
+                        serviceExemplaires.Ajouter(new Exemplaire(comboBox_etat.Text, ouvrages[id_ouvrage]));
                         //actualiser
-                        actualiser();
+                        Actualiser();
                         // message box reussite 
                         MessageBox.Show("L'exemplaire a été ajouté", "Ajout terminé", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        this.Close();
+                        Close();
                     }
                     else
                     {
                         // modifier
-                        this.exemplaires[this.idx].Etat = textBox_nom.Text;
-                        this.exemplaires[this.idx].Ouvrage = this.ouvrages[id_ouvrage];
-                        serviceExemplaires.Modifier(this.exemplaires[this.idx]);
-                        //actualiser
-                        actualiser();
+                        exemplaire.Etat = comboBox_etat.Text;
+                        exemplaire.Ouvrage = ouvrages[id_ouvrage];
+                        serviceExemplaires.Modifier(exemplaire);
+                        // actualiser
+                        Actualiser();
 
                         // message box reussite 
                         MessageBox.Show("L'exemplaire a été modifié", "Modification terminé", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                        this.Close();
+                        Close();
                     }
                 }
                 else

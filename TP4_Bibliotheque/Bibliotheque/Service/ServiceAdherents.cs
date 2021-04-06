@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Service
 {
@@ -38,7 +36,10 @@ namespace Service
             //vérifier si l'adhérent a des prets
             if (ad.Prets != null)
             {
-                if (ad.Prets.Count != 0) throw new Exception("L'adhérent ne peut pas être supprimé car il possède encore des emprunts");
+                if (ad.Prets.Count(p => !p.EstTermine()) > 0)
+                {
+                    throw new Exception("L'adhérent ne peut pas être supprimé car il possède encore des emprunts en cours");
+                }
                 else
                 {
                     depotAdherents.Delete(ad);
@@ -48,9 +49,6 @@ namespace Service
             {
                 depotAdherents.Delete(ad);
             }
-           
         }
-
-
     }
 }

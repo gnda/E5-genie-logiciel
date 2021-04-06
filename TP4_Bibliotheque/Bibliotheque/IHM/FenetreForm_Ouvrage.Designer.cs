@@ -48,7 +48,6 @@ namespace Bibliotheque.IHM
             this.label_title.Size = new System.Drawing.Size(226, 29);
             this.label_title.TabIndex = 6;
             this.label_title.Text = "Ajouter un ouvrage";
-            this.label_title.Click += new System.EventHandler(this.label_title_Click);
             // 
             // label_nom
             // 

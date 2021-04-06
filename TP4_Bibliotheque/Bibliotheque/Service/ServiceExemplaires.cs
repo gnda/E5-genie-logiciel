@@ -21,6 +21,16 @@ namespace Service
             }
         }
 
+        public List<Exemplaire> ObtenirListe()
+        {
+            using (IUnitOfWork uow = BeginTransaction())
+            {
+                List<Exemplaire> liste = depotExemplaires.Query().ToList();
+                uow.Commit();
+                return liste;
+            }
+        }
+
         public void Ajouter(Exemplaire ex)
         {
             using (IUnitOfWork uow = BeginTransaction())

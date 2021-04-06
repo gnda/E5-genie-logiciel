@@ -31,7 +31,6 @@ namespace IHM
         {
             ActualiserAdherents();
             ActualiserOuvrages();
-            ActualiserPrets();
         }
 
         void InitialiserServices(ServiceAdherents adherents, ServiceOuvrages ouvrages, ServicePrets prets, ServiceExemplaires exemplaires)
@@ -59,38 +58,42 @@ namespace IHM
 
         void ActualiserPrets()
         {
-            int idx = listBoxAdherents.SelectedIndex;
             // TODO:
             // 1. Recuperer l'identifiant de l'adherent selectionné
-            int identifiant = adherents[idx].Id - 1;
+            string selectedTxt = listBoxAdherents.SelectedItem as string;
+            Adherent adherent = serviceAdherents.ObtenirListe()
+                .Find(a => a.ToString() == selectedTxt);
 
-            if (identifiant >= 0)
-            {
+            if (adherent != null && adherents.Count > 0) { 
                 // 2. Recuperer la liste des prets associés à l'adherent
-                Adherent adh = adherents[idx];
+                Adherent adh = adherents.Find(a => a.Id == adherent.Id);
                 prets = adh.Prets;
                 // 3. Afficher la liste des prets
                 AfficheList(prets, listBoxPrets);
-            }
-            else
-            {
-                MessageBox.Show("Probleme actu pret", "Erreur : adhérent négatif", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         void ActualiserExemplaires()
         {
-            int idx = listBoxOuvrages.SelectedIndex;
-
             // TODO:
             // 1. Recuperer l'identifiant de l'ouvrage selectionné
-            int identifiant = ouvrages[idx].Id - 1;
-            // 2. Recuperer la liste des exemplaires associés à l'ouvrage
-            Ouvrage ouv = ouvrages[idx];
-            exemplaires = ouv.Exemplaires;
-            // 3. Afficher la liste des exemplaires
-            AfficheList(exemplaires, listBoxExemplaires);
+            string selectedTxt = listBoxOuvrages.SelectedItem as string;
+            Ouvrage ouvrage = serviceOuvrages.ObtenirListe()
+                .Find(o => o.ToString() == selectedTxt);
 
+            // 2. Recuperer la liste des exemplaires associés à l'ouvrage
+            if (ouvrage != null && ouvrages != null && ouvrages.Count > 0) {
+                exemplaires = serviceExemplaires.ObtenirListeParOuvrage(ouvrage.Id);
+            }
+            else if (exemplaires != null)
+            {
+                exemplaires.Clear();
+            }
+
+            // 3. Afficher la liste des exemplaires
+            if (exemplaires != null) { 
+                AfficheList(exemplaires, listBoxExemplaires);
+            }
         }
 
         private void listBoxOuvrages_SelectedIndexChanged(object sender, EventArgs e)
@@ -124,57 +127,78 @@ namespace IHM
         private void buttonEmprunter_Click(object sender, EventArgs e)
         {
             // TODO:
-            // 1. Recuperer l'identifiant de l'adherent selectionné
-            int idx_adh = listBoxAdherents.SelectedIndex;
-            // 2. Recuperer l'identifiant de l'exemplaire selectionné
-            int idx_exe = listBoxExemplaires.SelectedIndex;
-            try
+            if (adherents.Count > 0 && exemplaires.Count > 0) {
+                // 1. Recuperer l'identifiant de l'adherent selectionné
+                string selectedTxt = listBoxAdherents.SelectedItem as string;
+                Adherent adherent = adherents
+                    .Find(a => a.ToString() == selectedTxt);
+                // 2. Recuperer l'identifiant de l'exemplaire selectionné
+                selectedTxt = listBoxExemplaires.SelectedItem as string;
+                Exemplaire exemplaire = (exemplaires as List<Exemplaire>)
+                    .Find(ex => ex.ToString() == selectedTxt);
+                try
+                {
+                    // 3. Execution de l'emprunt
+                    adherent.Emprunte(exemplaire);
+                    // 4. Mis à jour de l'IHM
+                    Actualiser();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Emprunt échoué", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            } else
             {
-                // 3. Execution de l'emprunt
-                adherents[idx_adh].Emprunte(exemplaires[idx_exe]);
-                // 4. Mis à jour de l'IHM
-                Actualiser();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show( ex.Message, "Emprunt échoué", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Pas d'adhérent ou d'exemplaire !", "Emprunt échoué", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
         private void buttonRetourner_Click(object sender, EventArgs e)
         {
             // TODO:
-            // 1. Recuperer l'identifiant de l'exemplaire selectionné
-            int idx_exe = listBoxExemplaires.SelectedIndex;
-            try
+            if (exemplaires != null && exemplaires.Count > 0) {
+                // 1. Recuperer l'identifiant de l'exemplaire selectionné
+                string selectedTxt = listBoxExemplaires.SelectedItem as string;
+                Exemplaire exemplaire = (exemplaires as List<Exemplaire>)
+                    .Find(ex => ex.ToString() == selectedTxt);
+                try
+                {
+                    // 2. Execution du retour
+                    if (exemplaire.Adherent != null)
+                    {
+                        exemplaire.Adherent.Retourne(exemplaire);
+                    } else
+                    {
+                        throw new Exception("Exemplaire non emprunté !");
+                    }
+                    
+                    // 3. Mis à jour de l'IHM
+                    Actualiser();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Retour échoué", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            } else
             {
-                // 2. Execution du retour
-                Exemplaire exe = exemplaires[idx_exe];
-                exe.Adherent.Retourne(exe);
-                // 3. Mis à jour de l'IHM
-                Actualiser();
+                MessageBox.Show("Pas d'exemplaire !", "Retour échoué", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Retour échoué", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        private void buttonAdd_ClickExemplaire(EventArgs e)
-        {
         }
 
         private void buttonAjouterAdherent_Click(object sender, EventArgs e)
         {
-            FenetreForm_Adherent frm = new FenetreForm_Adherent(serviceAdherents, adherents, "Ajouter Adhérent", -1);
+            FenetreForm_Adherent frm = new FenetreForm_Adherent(serviceAdherents, adherents, "Ajouter Adhérent");
             frm.Show();
         }
 
         private void buttonModifierAdherent_Click(object sender, EventArgs e)
         {
-            int idx_adh = listBoxAdherents.SelectedIndex;
-            if (idx_adh >= 0)
+            string selectedTxt = listBoxAdherents.SelectedItem as string;
+            Adherent adherent = adherents
+                .Find(a => a.ToString() == selectedTxt);
+            if (adherent != null)
             {
-                FenetreForm_Adherent frm = new FenetreForm_Adherent(serviceAdherents, adherents, "Modifier Adhérent", idx_adh);
+                FenetreForm_Adherent frm = new FenetreForm_Adherent(serviceAdherents, adherents, "Modifier Adhérent", adherent);
                 frm.Show();
             }
             else
@@ -183,40 +207,44 @@ namespace IHM
             }
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void buttonSupprimerAdherent_Click(object sender, EventArgs e)
         {
-            int idx_adh = listBoxAdherents.SelectedIndex;
-            if (idx_adh >= 0) {
-                if (MessageBox.Show("Etes-vous certain de supprimer :" + this.adherents[idx_adh].Nom + " ?", "Suppression", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            string selectedTxt = listBoxAdherents.SelectedItem as string;
+            Adherent adherent = adherents
+                .Find(a => a.ToString() == selectedTxt);
+            if (adherent != null) {
+                if (MessageBox.Show("Etes-vous certain de supprimer :" + adherent.Nom + " ?", "Suppression", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
-                    serviceAdherents.Supprimer(this.adherents[idx_adh]);
+                    try { 
+                        serviceAdherents.Supprimer(adherent);
+                    } catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Erreur suppression", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                     Actualiser();
                 }
             }
             else
             {
-                MessageBox.Show("Vous devez selectionner un adhérent", "Erreur : Absence de selection d'un adhérent", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Vous devez selectionner un adhérent", "Erreur : Absence de selection d'un adhérent", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             
         }
 
         private void buttonAjouterOuvrage_Click(object sender, EventArgs e)
         {
-            FenetreForm_Ouvrage frm = new FenetreForm_Ouvrage(serviceOuvrages, ouvrages, "Ajouter Ouvrage", -1);
+            FenetreForm_Ouvrage frm = new FenetreForm_Ouvrage(serviceOuvrages, ouvrages, "Ajouter Ouvrage");
             frm.Show();
         }
 
         private void buttonModifierOuvrage_Click(object sender, EventArgs e)
         {
-            int idx_ouv = listBoxOuvrages.SelectedIndex;
-            if (idx_ouv >= 0)
+            string selectedTxt = listBoxOuvrages.SelectedItem as string;
+            Ouvrage ouvrage = ouvrages
+                .Find(o => o.ToString() == selectedTxt);
+            if (ouvrage != null)
             {
-                FenetreForm_Ouvrage frm = new FenetreForm_Ouvrage(serviceOuvrages, ouvrages, "Modifier Ouvrage", idx_ouv);
+                FenetreForm_Ouvrage frm = new FenetreForm_Ouvrage(serviceOuvrages, ouvrages, "Modifier Ouvrage", ouvrage);
                 frm.Show();
             }
             else
@@ -227,12 +255,14 @@ namespace IHM
 
         private void buttonSupprimerOuvrage_Click(object sender, EventArgs e)
         {
-            int idx_ouv = listBoxOuvrages.SelectedIndex;
-            if (idx_ouv >= 0)
+            string selectedTxt = listBoxOuvrages.SelectedItem as string;
+            Ouvrage ouvrage = ouvrages
+                .Find(o => o.ToString() == selectedTxt);
+            if (ouvrage != null)
             {
-                if (MessageBox.Show("Etes-vous certain de supprimer :" + this.ouvrages[idx_ouv].Titre + " " + this.ouvrages[idx_ouv].Auteur + " ?", "Suppression", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                if (MessageBox.Show("Etes-vous certain de supprimer :" + ouvrage + " ?", "Suppression", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
-                    serviceOuvrages.Supprimer(this.ouvrages[idx_ouv]);
+                    serviceOuvrages.Supprimer(ouvrage);
                     Actualiser();
                 }
             }
@@ -244,16 +274,18 @@ namespace IHM
 
         private void buttonAjouterExemplaire_Click(object sender, EventArgs e)
         {
-            FenetreForm_Exemplaire frm = new FenetreForm_Exemplaire(serviceOuvrages, ouvrages, serviceExemplaires, exemplaires, "Ajouter Exemplaire", -1);
+            FenetreForm_Exemplaire frm = new FenetreForm_Exemplaire(serviceOuvrages, ouvrages, serviceExemplaires, exemplaires, "Ajouter Exemplaire");
             frm.Show();
         }
 
         private void buttonModifierExemplaire_Click(object sender, EventArgs e)
         {
-            int idx_exe = listBoxExemplaires.SelectedIndex;
-            if (idx_exe >= 0)
+            string selectedTxt = listBoxExemplaires.SelectedItem as string;
+            Exemplaire exemplaire = (exemplaires as List<Exemplaire>)
+                .Find(ex => ex.ToString() == selectedTxt);
+            if (exemplaire != null)
             {
-                FenetreForm_Exemplaire frm = new FenetreForm_Exemplaire(serviceOuvrages, ouvrages, serviceExemplaires, exemplaires, "Modifier Exemplaire", idx_exe);
+                FenetreForm_Exemplaire frm = new FenetreForm_Exemplaire(serviceOuvrages, ouvrages, serviceExemplaires, exemplaires, "Modifier Exemplaire", exemplaire);
                 frm.Show();
             }
             else
@@ -264,18 +296,20 @@ namespace IHM
 
         private void buttonSupprimerExemplaire_Click(object sender, EventArgs e)
         {
-            int idx_exe = listBoxExemplaires.SelectedIndex;
-            if (idx_exe >= 0)
+            string selectedTxt = listBoxExemplaires.SelectedItem as string;
+            Exemplaire exemplaire = (exemplaires as List<Exemplaire>)
+                .Find(ex => ex.ToString() == selectedTxt);
+            if (exemplaire != null)
             {
-                if (MessageBox.Show("Etes-vous certain de supprimer :" + this.exemplaires[idx_exe].Ouvrage.Titre + " " + this.exemplaires[idx_exe].Ouvrage.Auteur + " Etat: " + this.exemplaires[idx_exe].Etat+ " ?", "Suppression", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                if (MessageBox.Show("Etes-vous certain de supprimer :" + exemplaire + " ?", "Suppression", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
-                    serviceExemplaires.Supprimer(this.exemplaires[idx_exe]);
+                    serviceExemplaires.Supprimer(exemplaire);
                     Actualiser();
                 }
             }
             else
             {
-                MessageBox.Show("Vous devez selectionner un Exemplaire", "Erreur : Absence de selection d'un exemplaire", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Vous devez sélectionner un Exemplaire", "Erreur : Absence de sélection d'un exemplaire", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

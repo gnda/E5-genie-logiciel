@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Domaine
+﻿namespace Domaine
 {
     public class Exemplaire
     {
@@ -18,8 +12,8 @@ namespace Domaine
         }
         public Exemplaire(string etat, Ouvrage ouvrage)
         {
-            this.Etat = etat;
-            this.Ouvrage = ouvrage;
+            Etat = etat;
+            Ouvrage = ouvrage;
         }
         public virtual bool EstDisponible()
         {
@@ -31,10 +25,11 @@ namespace Domaine
 
         public override string ToString()
         {
-            return
-                  " Ouvrage : " + this.Ouvrage.ToString()
-                + " Id : " + this.Id
-                + " Etat : " + this.Etat
+            return " Ouvrage : " + Ouvrage.ToString()
+                 + " : { Id : " + Id
+                 + " | Etat : " + Etat
+                 + " | Emprunté : " + (Adherent != null ? "Oui" : "Non")
+                 + " }"
             ;
         }
 

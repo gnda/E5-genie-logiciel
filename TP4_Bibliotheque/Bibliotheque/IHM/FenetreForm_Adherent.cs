@@ -3,12 +3,7 @@ using IHM;
 using Service;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Bibliotheque.IHM
@@ -17,72 +12,70 @@ namespace Bibliotheque.IHM
     {
         ServiceAdherents serviceAdherents;
         List<Adherent> adherents;
-        int idx;
+        Adherent adherent;
 
-        public FenetreForm_Adherent(ServiceAdherents serviceAdherents, List<Adherent> adherents, string title, int idx)
+        public FenetreForm_Adherent(ServiceAdherents serviceAdherents, 
+            List<Adherent> adherents, string titre, Adherent adherent = null)
         {
             
             InitializeComponent();
-            this.idx = idx;
             this.serviceAdherents = serviceAdherents;
             this.adherents = adherents;
-            label_title.Text = title;
-            btn.Text = title;
-            if (this.idx != -1)
+            if (adherent != null)
             {
-                textBox_nom.Text = adherents[idx].Nom;
+                this.adherent = adherents.Find(a => a.Id == adherent.Id);
+            }
+            label_title.Text = titre;
+            btn.Text = titre;
+            if (this.adherent != null)
+            {
+                textBox_nom.Text = adherent.Nom;
             }
         }
 
-        private void actualiser()
+        private void Actualiser()
         {
             var mainForm = Application.OpenForms.OfType<Fenetre>().Single();
             mainForm.Actualiser();
         }
 
-        private void FenetreForm_Adherent_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
-            // verifier si c'est remplie
-            if(textBox_nom.Text != "" )
+            if(textBox_nom.Text != "")
             {
                 // déjà existant ?
                 bool to_return = false;
-                for(int i = 0; (i<this.adherents.Count) && to_return==false; i++)
+                for(int i = 0; (i < adherents.Count) && to_return==false; i++)
                 {
-                    if (this.adherents[i].Nom == textBox_nom.Text)
+                    if (adherents[i].Nom == textBox_nom.Text)
                     {
                         to_return = true;
                     }
                 }
                 if (!to_return)
                 {
-                    if (this.idx == -1)
+                    if (adherent == null)
                     {
                         // ajouter
                         serviceAdherents.Ajouter(new Adherent(textBox_nom.Text));
-                        //actualiser
-                        actualiser();
+                        // actualiser
+                        Actualiser();
                         // message box reussite 
                         MessageBox.Show("L'adhérent a été ajouté", "Ajout terminé", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        this.Close();
+                        Close();
                     }
                     else
                     {
                         // modifier
-                        this.adherents[this.idx].Nom = textBox_nom.Text;
-                        serviceAdherents.Modifier(this.adherents[this.idx]);
-                        //actualiser
-                        actualiser();
+                        adherent.Nom = textBox_nom.Text;
+                        serviceAdherents.Modifier(adherent);
+                        // actualiser
+                        Actualiser();
 
                         // message box reussite 
                         MessageBox.Show("L'adhérent a été modifié", "Modification terminé", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        
-                        this.Close();
+
+                        Close();
                     }
                 }
                 else
@@ -96,23 +89,6 @@ namespace Bibliotheque.IHM
                 // message box echec
                 MessageBox.Show("Le champ nom est obligatoire", "Echec", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-        }
-
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox_nom_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label_nom_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
