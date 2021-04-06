@@ -1,14 +1,15 @@
-# TP - Biblihothèque
+# TP - Bibliothèque
 
 ## Auteurs 
 
 Kévin Nandacoumar - E5FIC
 Ansary Marecar - E5FIC
 
-## A propos
+## À propos
 
 Ce projet a été réalisé dans le cadre du cours de Génie Logiciel à l'ESIEE Paris.
-L'objectif est de réaliser un ORM d'une biblihothèque depuis un code C# prédéfini par l'enseignant en amont.
+L'objectif est de réaliser un gestionnaire de bibliothèque depuis un code C# prédéfini par l'enseignant en amont
+en se servant de l'ORM NHibernate.
 
 ## Fonctionalités de la biblihothèque
 
@@ -17,11 +18,11 @@ L'objectif est de réaliser un ORM d'une biblihothèque depuis un code C# préd�
 - Ajouter un ouvrage
 - Modifier un ouvrage
 - Supprimer un ouvrage
-- Lorsqu'on selectionne un ouvrage, on voit les exemplaires qui lui concerne
+- Lorsque l'on sélectionne un ouvrage, on voit les exemplaires qui le concernent
 
 ### Gestion des exemplaires 
 - Faire le lien avec les ouvrages
-- Afficher les exemplaires  en fonction de l'ouvrage selectionné
+- Afficher les exemplaires en fonction de l'ouvrage selectionné
 - Ajouter un exemplaire
 - Modifier un exemplaire
 - Supprimer un exemplaire
@@ -40,10 +41,8 @@ L'objectif est de réaliser un ORM d'une biblihothèque depuis un code C# préd�
 - Réaliser un Retour d'exemplaire
 
 ## Réalisation
-
-- Réalisation d'un ORM
+- Réalisation du gestionnaire de bibliothèque
 - Validation des tests
 - Amélioration de l'interface graphique
-
 
 
