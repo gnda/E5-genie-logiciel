@@ -1,61 +1,93 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Echecs.IHM;
+﻿using Echecs.IHM;
+using System;
 
 namespace Echecs.Domaine
 {
-    public class Case : IEvenements
+    public class Case
     {
         // attributs
-        private CouleurCamp color;
-        private int col;
-        private int row;
+        public int x, y;
+        public CouleurCamp couleur;
 
         // associations
+        public Echiquier echiquier;
         public Piece piece;
+
+        public Case(Echiquier echiquier, int x, int y, CouleurCamp couleur)
+        {
+            this.echiquier = echiquier;
+            this.x = x;
+            this.y = y;
+            this.couleur = couleur;
+        }
 
         // methodes
         public void Link(Piece newPiece)
         {
-            //old = position
+            // On ne veut pas lier une piece nulle
+            if (newPiece == null)
+            {
+                return;
+            }
+
             // 1. Deconnecter newPiece de l'ancienne case
-            UnLink(newPiece);
+            var old = newPiece.position;
+            if (old != null)
+            {
+                old.UnLink();
+            }
+
+            // Capturer la piece dans la case si on en a une
+            if (piece != null)
+            {
+                newPiece.joueur.CapturerPiece(piece);
+            }
 
             // 2. Connecter newPiece à cette case
-            this.piece = newPiece;
-            //private ==> InfoPiece ip = new InfoPiece(newPiece.GetType(),this.color);
-            //this.ActualiserCase(col,row,info_piece); // info_piece(type ?,couleur ok)
+            piece = newPiece;
+            newPiece.position = this;
+
+            echiquier.partie.vue.ActualiserCase(x, y, piece.info);
         }
 
-        public void UnLink(Piece newPiece)
+        public void UnLink()
         {
-            
-            //1. Annule la référence sur l’objet Piece
-            this.piece = null; 
+            // 1. Annule la référence sur l’objet Piece
+            piece = null;
 
-            //2. Soulève un événement ActualiserCase
-            // comment car ds Partie ???
-        }
-        
-        public void ActualiserPartie(StatusPartie status)
-        {
-            throw new NotImplementedException();
+            // 2. Soulève un événement ActualiserCase
+            echiquier.partie.vue.ActualiserCase(x, y, null);
         }
 
-        public void ActualiserCase(int x, int y, InfoPiece info)
+        public bool CheminLibre(Case destination)
         {
-            this.col = x;
-            this.row = y;
-            this.color = info.couleur;
-            throw new NotImplementedException();
-        }
+            int deltaX = destination.x - x;
+            int deltaY = destination.y - y;
+            int distance = (deltaX == 0) ? deltaY : deltaX;
 
-        public void ActualiserCaptures(List<InfoPiece> pieces)
-        {
-            throw new NotImplementedException();
+            bool deplacementVertical = deltaX == 0;
+            bool deplacementHorizontal = deltaY == 0;
+            bool deplacementDiagonal = Math.Abs(deltaX) == Math.Abs(deltaY);
+
+            // Si on est dans aucun de ces 3 cas, alors le déplacement n'est pas autorisé
+            if (!(deplacementVertical || deplacementHorizontal || deplacementDiagonal))
+            {
+                return false;
+            }
+
+            for (int i = 1; i < distance; i++)
+            {
+                int testX = x + i * Math.Sign(deltaX);
+                int testY = y + i * Math.Sign(deltaY);
+
+                // Deplacement interdit s'il y a une pièce sur le chemin
+                if (echiquier.cases[testX, testY].piece != null)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

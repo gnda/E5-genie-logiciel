@@ -1,23 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Echecs.IHM;
+﻿using Echecs.IHM;
 
 namespace Echecs.Domaine
 {
     public class Dame : Piece
     {
-        public Dame(Joueur joueur) : base(joueur, TypePiece.Dame) { }
+        public Dame(Joueur joueur) : base(joueur, TypePiece.Dame) {}
 
         public override bool Deplacer(Case destination)
         {
+            if (CaseBloquee(destination) || !position.CheminLibre(destination))
+            {
+                return false;
+            }
+
             destination.Link(this);
 
             return true;
         }
-
-       
     }
 }
